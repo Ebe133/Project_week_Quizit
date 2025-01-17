@@ -62,27 +62,22 @@
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $correctAnswer = "A";
+            $selectedAnswer = $_POST["answer"];
 
             
             if ($selectedAnswer === $selectedAnswer){
                 header("Location: vraag2.php");
                 exit();
 
-             
+            
             }
-
-            if ($selectedAnswer === $correctAnswer){
-               
-               
-                
-            };
             
             $servername = "localhost";
             $username = "root";
             $password = "";
             $dbname = "quizit_1";
             
-         
+        
             $conn = mysqli_connect($servername, $username, $password, $dbname);
             
             
@@ -91,8 +86,7 @@
             }
             
             echo "De verbinding werkt!";
-            
-           
+
         }
         ?>
     </div>

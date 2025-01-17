@@ -62,13 +62,13 @@ S
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $correctAnswer = "A";
+            $selectedAnswer = $_POST["answer"];
 
-            
-         
-           $score = "";
+        $score = "";
 
             if ($selectedAnswer === $correctAnswer){
                 $score++; 
+                echo "Je hebt het antwoord A gekozen. Goed gedaan!" . "<br>" . "Je hebt $score punten."; 
             }
 
 
