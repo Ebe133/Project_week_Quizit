@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Als het wachtwoord klopt, toon een succesmelding
             echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($name) . ".</p>";
             // Redirect de gebruiker naar de quizpagina
-            header("Location: quiz.php");
+            header("Location: Homepage.php");
             exit(); // Stop verdere scriptuitvoering na de redirect
         } else {
             // Toon een foutmelding als het wachtwoord onjuist is
