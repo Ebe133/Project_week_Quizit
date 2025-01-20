@@ -1,33 +1,37 @@
 <?php
-// Voeg het database verbindingsbestand in
+// Include the database connection file
 include_once 'database.php';
 
-// Haal alle vragen en hun correcte antwoorden op uit de database
-$sql = "SELECT id, correct_option FROM questions";
-$result = $conn->query($sql); // Voer de query uit
-
-// Initialiseer de score van de gebruiker
+// Initialize the score of the user
 $score = 0;
 
-// Controleer of er resultaten zijn opgehaald uit de database
-if ($result->num_rows > 0) {
-    // Doorloop elke vraag en controleer de antwoorden
-    while ($row = $result->fetch_assoc()) {
-        // Haal het ID en het correcte antwoord van de huidige vraag op
-        $question_id = $row['id'];
-        $correct_option = $row['correct_option'];
+// Check if the form has been submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Fetch all questions and their correct answers from the database
+    $sql = "SELECT id, correct_option FROM questions";
+    $result = $conn->query($sql); // Execute the query
+    
+    // Check if there are results retrieved from the database
+    if ($result->num_rows > 0) {
+        // Loop through each question and check the answers
+        while ($row = $result->fetch_assoc()) {
+            // Get the ID and correct answer of the current question
+            $question_id = $row['id'];
+            $correct_option = $row['correct_option'];
 
-        // Controleer of de gebruiker een antwoord heeft gegeven en of het correct is
-        if (isset($_POST["question_$question_id"]) && $_POST["question_$question_id"] === $correct_option) {
-            $score++; // Verhoog de score met 1 als het antwoord correct is
+            // Check if the user has answered and if it's correct
+            if (isset($_POST["question_$question_id"]) && !empty($_POST["question_$question_id"])) {
+                if ($_POST["question_$question_id"] === $correct_option) {
+                    $score++; // Increase the score by 1 if the answer is correct
+                }
+            }
         }
     }
+
+    // Display the final score to the user
+    echo "<p>Your score: $score</p>";
+
+    // Close the database connection
+    $conn->close();
 }
-
-// Toon de uiteindelijke score aan de gebruiker
-echo "<p>Your score: $score</p>";
-
-// Sluit de databaseverbinding
-$conn->close();
 ?>
-
