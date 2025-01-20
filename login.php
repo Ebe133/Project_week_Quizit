@@ -1,4 +1,4 @@
--<?php
+<?php
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Inloggen">
         </form>
 
-        <a href="test2.php" class="register-link">Nog geen account? Registreer hier.</a>
+        <a href="register.php" class="register-link">Nog geen account? Registreer hier.</a>
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

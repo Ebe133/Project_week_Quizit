@@ -1,3 +1,52 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizit_1";
+
+// Maak verbinding met de database
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controleer verbinding
+if ($conn->connect_error) {
+    die("Verbinding mislukt: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = isset($_POST["username"]) ? trim($_POST['username']) : null;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+    $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
+
+    if (empty($username) || empty($password) || empty($confirmPassword)) {
+        echo "<p class='error-message'>Alle velden zijn verplicht!</p>";
+        return;
+    }
+
+    if ($password !== $confirmPassword) {
+        echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
+        return;
+    }
+
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Prepare the SQL statement
+    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+    $stmt->bind_param("ss", $username, $hashedPassword);
+
+    // Execute the statement and handle errors
+    if ($stmt->execute()) {
+        echo "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
+    } else {
+        echo "<p class='error-message'>Fout: " . $stmt->error . "</p>";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,8 +131,11 @@
             $rconfirmPassword = $_POST["confirm_password"];
 
             if ($rpassword !== $rconfirmPassword) {
-               echo "yooooo";
-            }else echo "homooooo"; }
+                echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
+            } else {
+                echo "<p class='success-message'>Registratie gelukt! Welkom, " . htmlspecialchars($rusername) . ".</p>";
+            }
+        }
         ?>
     </div>
 </body>
