@@ -1,0 +1,64 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #BBE6E4;
+    color: #084b83;
+}
+
+/* Header styling */
+header#header {
+    background-color: #084b83;
+    color: #BBE6E4;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header#header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+/* Form container styling */
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #42BFDD;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+form p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Radio button styling */
+form input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Submit button styling */
+form input[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #084b83;
+    color: #BBE6E4;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #042f59;
+}
