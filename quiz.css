@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #BBE6E4;
+    background-color: #42bfdd;
     color: #084b83;
 }
 
@@ -25,7 +25,7 @@ header#header h1 {
 form {
     max-width: 600px;
     margin: 30px auto;
-    background-color: #42BFDD;
+    background-color: #BBE6E4;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
