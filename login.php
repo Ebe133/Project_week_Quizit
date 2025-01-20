@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
         if (password_verify($password, $hashedPassword)) {
             echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($name) . ".</p>";
-            header("Location: vragen.php");
+            header("Location: quiz.php");
             exit();
         } else {
             echo "<p class='error-message'>Onjuist wachtwoord!</p>";
