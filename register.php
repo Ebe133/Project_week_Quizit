@@ -26,21 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Bereid de SQL-query voor om de nieuwe gebruiker in de database in te voegen
     $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
     if (!$stmt) {
         // Toon een foutmelding als het voorbereiden van de query mislukt
         die("Voorbereiding mislukt: " . $conn->error);
-    }
-    $stmt->bind_param("ss", $name, $hashedPassword); // Bind de gebruikersnaam en het gehashte wachtwoord aan de query
-
-    // Voer de query uit en behandel eventuele fouten
-    if ($stmt->execute()) {
-        // Toon een succesbericht als de registratie is gelukt
-        echo "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
     } else {
-        // Toon een foutmelding als er een probleem was tijdens het uitvoeren van de query
-        echo "<p class='error-message'>Fout: " . $stmt->error . "</p>";
+        // Voer de query uit en behandel eventuele fouten
+        if ($stmt->execute()) {
+            // Toon een succesbericht als de registratie is gelukt
+            echo "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
+        } else {
+            // Toon een foutmelding als er een probleem was tijdens het uitvoeren van de query
+            echo "<p class='error-message'>Fout: " . $conn->error . "</p>";
+        }
     }
-}
 ?>
 
 
