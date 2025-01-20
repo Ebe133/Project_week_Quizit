@@ -8,42 +8,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST["name"]) ? trim($_POST['name']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
     $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
-}
+
     // Controleer of alle velden zijn ingevuld
     if (empty($name) || empty($password) || empty($confirmPassword)) {
-        echo "<p class='error-message'>Alle velden zijn verplicht!</p>";
-        return; // Stop verdere verwerking
-    }
-
-    // Controleer of de ingevoerde wachtwoorden overeenkomen
-    if ($password !== $confirmPassword) {
-        echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
-        return; // Stop verdere verwerking
-    }
-
-    // Hash het wachtwoord voor veilige opslag in de database
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Bereid de SQL-query voor om de nieuwe gebruiker in de database in te voegen
-    $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
-    $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
-    if (!$stmt) {
-        // Toon een foutmelding als het voorbereiden van de query mislukt
-        die("Voorbereiding mislukt: " . $conn->error);
+        $message = "<p class='error-message'>Alle velden zijn verplicht!</p>";
+    } elseif ($password !== $confirmPassword) {
+        // Controleer of de ingevoerde wachtwoorden overeenkomen
+        $message = "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
     } else {
-        // Voer de query uit en behandel eventuele fouten
-        if ($stmt->execute()) {
-            // Toon een succesbericht als de registratie is gelukt
-            echo "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
+        // Controleer of de naam al bestaat in de database
+        $stmt = $conn->prepare("SELECT id FROM user WHERE name = ?");
+        if (!$stmt) {
+            $message = "<p class='error-message'>Voorbereiding mislukt: " . $conn->error . "</p>";
         } else {
-            // Toon een foutmelding als er een probleem was tijdens het uitvoeren van de query
-            echo "<p class='error-message'>Fout: " . $conn->error . "</p>";
+            $stmt->bind_param("s", $name);
+            $stmt->execute();
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                // Naam bestaat al
+                $message = "<p class='error-message'>De gebruikersnaam is al in gebruik. Kies een andere naam.</p>";
+            } else {
+                // Hash het wachtwoord voor veilige opslag in de database
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                // Bereid de SQL-query voor om de nieuwe gebruiker in de database in te voegen
+                $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
+                if (!$stmt) {
+                    $message = "<p class='error-message'>Voorbereiding mislukt: " . $conn->error . "</p>";
+                } else {
+                    $stmt->bind_param("ss", $name, $hashedPassword);
+                    if ($stmt->execute()) {
+                        $message = "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
+                    } else {
+                        $message = "<p class='error-message'>Fout: " . $conn->error . "</p>";
+                    }
+                }
+            }
         }
     }
+}
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registreer</title>
     <style>
-        body {
+            body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -60,6 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+        a {
+            color: lightblue;
+            text-decoration: none;
+            background-color: #003D66;
+            border: none;
+            border-radius: 2px ;
+        }
+        a:hover {
+            text-decoration: underline;
         }
         .login-container {
             background-color: #E0F5F9;
@@ -87,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #003D66;
             color: #FFF;
             padding: 10px 15px;
-            border: none;
+            border: 1px solid black;
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
@@ -120,18 +135,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <input type="submit" value="Registreer">
         </form>
-
+        <a href="login.php">Inloggen</a>
         <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $rname = $_POST["name"];
-            $rpassword = $_POST["password"];
-            $rconfirmPassword = $_POST["confirm_password"];
-
-            if ($rpassword !== $rconfirmPassword) {
-                echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
-            } else {
-                echo "<p class='success-message'>Registratie gelukt! Welkom, " . htmlspecialchars($rname) . ".</p>";
-            }
+        // Toon het bericht (indien aanwezig)
+        if (isset($message)) {
+            echo $message;
         }
         ?>
     </div>
