@@ -9,8 +9,8 @@
 <body>
     <h1>Bent u een leerling of docent?</h1>
     <div class="container">
-        <a class="choice" href="quizit.php?role=leerling">Leerling</a>
-        <a class="choice" href="quizit.php?role=docent">Docent</a>
+        <a class="choice" href="test.php?role=leerling">Leerling</a>
+        <a class="choice" href="test.php?role=docent">Docent</a>
     </div>
 </body>
 </html>

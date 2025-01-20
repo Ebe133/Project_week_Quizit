@@ -1,9 +1,56 @@
+-<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizit_1";
+
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Verbinding mislukt: " . $conn->connect_error);
+}
+?>
+<?php
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+   
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($hashedPassword);
+        $stmt->fetch();
+
+ 
+        if (password_verify($password, $hashedPassword)) {
+            echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($username) . ".</p>";
+            header("Location: vragen.php");
+            exit();
+        } else {
+            echo "<p class='error-message'>Onjuist wachtwoord!</p>";
+        }
+    } else {
+        echo "<p class='error-message'>Gebruiker niet gevonden!</p>";
+    }
+
+    $stmt->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registreer</title>
+    <title>Inloggen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,11 +104,21 @@
             color: green;
             font-size: 14px;
         }
+        .register-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 14px;
+            color: #003D66;
+            text-decoration: none;
+        }
+        .register-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Registreer</h2>
+        <h2>Inloggen</h2>
         <form action="" method="POST">
             <label for="username">Gebruikersnaam:</label>
             <input type="text" id="username" name="username" required>
@@ -69,21 +126,20 @@
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="confirm_password">Herhaal wachtwoord:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
-
-            <input type="submit" value="Registreer">
+            <input type="submit" value="Inloggen">
         </form>
+
+        <a href="test2.php" class="register-link">Nog geen account? Registreer hier.</a>
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $rusername = $_POST["username"];
-            $rpassword = $_POST["password"];
-            $rconfirmPassword = $_POST["confirm_password"];
+            $lusername = $_POST["username"];
+            $lpassword = $_POST["password"];
 
-            if ($rpassword !== $rconfirmPassword) {
-               echo "yooooo";
-            }else echo "homooooo"; }
+            if (empty($lusername) || empty($lpassword)) {
+                echo "<p class='error-message'>Vul alle velden in!</p>";
+            }
+        }
         ?>
     </div>
 </body>
