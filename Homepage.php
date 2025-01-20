@@ -13,7 +13,7 @@
     <h2>Kies een quiz!</h2>
     <nav>
         <ul>
-            <li><a href="">Quiz 1</a></li>
+            <li><a href="quiz.php">Quiz 1</a></li>
             <li><a href="">Quiz 2</a></li>
             <li><a href="">Quiz 3</a></li>
             <li><a href="">Quiz 4</a></li>
