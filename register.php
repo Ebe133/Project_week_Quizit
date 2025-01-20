@@ -1,39 +1,48 @@
 <?php
+// Voeg het database verbindingsbestand in
 include_once 'database.php';
 
+// Controleer of het formulier is verzonden via de POST-methode
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Haal gebruikersinvoer op en verwijder eventuele onnodige spaties
     $name = isset($_POST["name"]) ? trim($_POST['name']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
     $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
 
+    // Controleer of alle velden zijn ingevuld
     if (empty($name) || empty($password) || empty($confirmPassword)) {
         echo "<p class='error-message'>Alle velden zijn verplicht!</p>";
-        return;
+        return; // Stop verdere verwerking
     }
 
+    // Controleer of de ingevoerde wachtwoorden overeenkomen
     if ($password !== $confirmPassword) {
         echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
-        return;
+        return; // Stop verdere verwerking
     }
 
-    // Hash the password
+    // Hash het wachtwoord voor veilige opslag in de database
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare the SQL statement
+    // Bereid de SQL-query voor om de nieuwe gebruiker in de database in te voegen
     $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
     if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
+        // Toon een foutmelding als het voorbereiden van de query mislukt
+        die("Voorbereiding mislukt: " . $conn->error);
     }
-    $stmt->bind_param("ss", $name, $hashedPassword);
+    $stmt->bind_param("ss", $name, $hashedPassword); // Bind de gebruikersnaam en het gehashte wachtwoord aan de query
 
-    // Execute the statement and handle errors
+    // Voer de query uit en behandel eventuele fouten
     if ($stmt->execute()) {
+        // Toon een succesbericht als de registratie is gelukt
         echo "<p class='success-message'>Registratie gelukt! Je kunt nu <a href='login.php'>inloggen</a>.</p>";
     } else {
+        // Toon een foutmelding als er een probleem was tijdens het uitvoeren van de query
         echo "<p class='error-message'>Fout: " . $stmt->error . "</p>";
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
