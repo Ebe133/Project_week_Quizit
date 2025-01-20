@@ -1,35 +1,47 @@
 <?php
-include_once 'database.php' ;
+// Voeg het database verbindingsbestand in
+include_once 'database.php';
 
+// Controleer of het formulier is verzonden via de POST-methode
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Haal de gebruikersinvoer van het formulier op
     $name = $_POST["name"];
     $password = $_POST["password"];
 
-   
+    // Bereid een SQL-query voor om het gehashte wachtwoord op te halen voor de opgegeven gebruikersnaam
     $stmt = $conn->prepare("SELECT password FROM user WHERE name = ?");
-    $stmt->bind_param("s", $name);
-    $stmt->execute();
-    $stmt->store_result();
+    $stmt->bind_param("s", $name); // Bind de gebruikersnaam aan de voorbereide query
+    $stmt->execute(); // Voer de query uit
+    $stmt->store_result(); // Sla het resultaat op om later te controleren
 
+    // Controleer of de gebruikersnaam in de database bestaat
     if ($stmt->num_rows > 0) {
+        // Bind het resultaat aan een variabele
         $stmt->bind_result($hashedPassword);
-        $stmt->fetch();
+        $stmt->fetch(); // Haal het gehashte wachtwoord op
 
- 
+        // Controleer of het ingevoerde wachtwoord overeenkomt met het gehashte wachtwoord
         if (password_verify($password, $hashedPassword)) {
+            // Als het wachtwoord klopt, toon een succesmelding
             echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($name) . ".</p>";
+            // Redirect de gebruiker naar de quizpagina
             header("Location: quiz.php");
-            exit();
+            exit(); // Stop verdere scriptuitvoering na de redirect
         } else {
+            // Toon een foutmelding als het wachtwoord onjuist is
             echo "<p class='error-message'>Onjuist wachtwoord!</p>";
         }
     } else {
+        // Toon een foutmelding als de gebruikersnaam niet wordt gevonden
         echo "<p class='error-message'>Gebruiker niet gevonden!</p>";
     }
 
+    // Sluit de voorbereide query om bronnen vrij te maken
     $stmt->close();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
