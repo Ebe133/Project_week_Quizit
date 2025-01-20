@@ -1,23 +1,12 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizit_1";
-
-// Maak verbinding met de database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Controleer verbinding
-if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
-}
+include_once 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = isset($_POST["username"]) ? trim($_POST['username']) : null;
+    $name = isset($_POST["name"]) ? trim($_POST['name']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
     $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
 
-    if (empty($username) || empty($password) || empty($confirmPassword)) {
+    if (empty($name) || empty($password) || empty($confirmPassword)) {
         echo "<p class='error-message'>Alle velden zijn verplicht!</p>";
         return;
     }
@@ -31,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (name, password) VALUES (?, ?)");
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
-    $stmt->bind_param("ss", $username, $hashedPassword);
+    $stmt->bind_param("ss", $name, $hashedPassword);
 
     // Execute the statement and handle errors
     if ($stmt->execute()) {
@@ -112,8 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-container">
         <h2>Registreer</h2>
         <form action="" method="POST">
-            <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required>
+            <label for="name">Gebruikersnaam:</label>
+            <input type="text" id="name" name="name" required>
 
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
@@ -126,14 +115,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $rusername = $_POST["username"];
+            $rname = $_POST["name"];
             $rpassword = $_POST["password"];
             $rconfirmPassword = $_POST["confirm_password"];
 
             if ($rpassword !== $rconfirmPassword) {
                 echo "<p class='error-message'>De wachtwoorden komen niet overeen!</p>";
             } else {
-                echo "<p class='success-message'>Registratie gelukt! Welkom, " . htmlspecialchars($rusername) . ".</p>";
+                echo "<p class='success-message'>Registratie gelukt! Welkom, " . htmlspecialchars($rname) . ".</p>";
             }
         }
         ?>

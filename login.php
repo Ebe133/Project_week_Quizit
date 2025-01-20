@@ -1,27 +1,13 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizit_1";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
-}
-?>
-<?php
-
+include_once 'database.php' ;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
+    $name = $_POST["name"];
     $password = $_POST["password"];
 
    
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
+    $stmt = $conn->prepare("SELECT password FROM user WHERE name = ?");
+    $stmt->bind_param("s", $name);
     $stmt->execute();
     $stmt->store_result();
 
@@ -31,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
  
         if (password_verify($password, $hashedPassword)) {
-            echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($username) . ".</p>";
+            echo "<p class='success-message'>Inloggen succesvol! Welkom, " . htmlspecialchars($name) . ".</p>";
             header("Location: vragen.php");
             exit();
         } else {
@@ -120,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-container">
         <h2>Inloggen</h2>
         <form action="" method="POST">
-            <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required>
+            <label for="name">Gebruikersnaam:</label>
+            <input type="text" id="name" name="name" required>
 
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
@@ -133,10 +119,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $lusername = $_POST["username"];
+            $lname = $_POST["name"];
             $lpassword = $_POST["password"];
 
-            if (empty($lusername) || empty($lpassword)) {
+            if (empty($lname) || empty($lpassword)) {
                 echo "<p class='error-message'>Vul alle velden in!</p>";
             }
         }
