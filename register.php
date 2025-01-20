@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST["name"]) ? trim($_POST['name']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
     $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
-
+}
     // Controleer of alle velden zijn ingevuld
     if (empty($name) || empty($password) || empty($confirmPassword)) {
         echo "<p class='error-message'>Alle velden zijn verplicht!</p>";

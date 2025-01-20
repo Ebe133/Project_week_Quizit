@@ -127,8 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Inloggen">
         </form>
 
-        <a href="register.php" class="register-link">Nog geen account? Registreer hier.</a>
-
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $lname = $_POST["name"];
@@ -139,6 +137,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         ?>
+
+        <a href="register.php" class="register-link">Nog geen account? Registreer hier.</a>
+
+
     </div>
 </body>
 </html>
