@@ -10,10 +10,13 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="quiz.css">
     <title>Quiz</title>
 </head>
 <body>
+    <header id="header">
     <h1>Quiz</h1>
+    </header>
     <form action="submit_quiz.php" method="POST">
         <?php
         if ($result->num_rows > 0) {
