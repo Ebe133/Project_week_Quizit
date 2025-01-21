@@ -1,5 +1,4 @@
 <?php
-// Include the database connection file
 include_once 'database.php';
 
 // Initialize the user's score and total questions
@@ -12,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])) {
     $quizId = $_POST['quiz_id'];
 
     // Fetch all questions and their correct answers for the specified quiz
-    $sql = "SELECT id, correct_option FROM questions WHERE quiz_id = ?";
+    $sql = "SELECT id, correct_answer FROM questions WHERE quiz_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $quizId);
     $stmt->execute();
@@ -23,14 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])) {
         // Loop through each question and validate the user's answers
         while ($row = $result->fetch_assoc()) {
             $question_id = $row['id'];
-            $correct_option = $row['correct_option'];
+            $correct_answer = $row['correct_answer'];
 
             // Increment the total number of questions
             $total_questions++;
 
             // Check if the user answered the question and if the answer is correct
-            if (isset($_POST["question_$question_id"]) && !empty($_POST["question_$question_id"])) {
-                if ($_POST["question_$question_id"] === $correct_option) {
+            if (isset($_POST["question_$question_id"])) {
+                $user_answer = $_POST["question_$question_id"];
+                if ($user_answer === $correct_answer) {
                     $score++; // Increment the score for a correct answer
                 }
             }
@@ -50,12 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Resultaat</title>
+    <title>Quiz Result</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -96,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])) {
 </head>
 <body>
     <div class="result-container">
-        <h2>Quiz Resultaat</h2>
-        <p>Je score: <?php echo $score; ?> van <?php echo $total_questions; ?></p>
-        <p>Aantal fouten: <?php echo $errors; ?></p>
-        <a href="homepage.php">Terug naar de homepagina</a>
+        <h2>Quiz Result</h2>
+        <p>Your score: <?php echo $score; ?> out of <?php echo $total_questions; ?></p>
+        <p>Incorrect answers: <?php echo $errors; ?></p>
+        <a href="homepage.php">Back to Homepage</a>
     </div>
 </body>
 </html>

@@ -1,70 +1,97 @@
-*{
-    margin: 0px;
-    font-family: sans-serif;
+/* Reset margins and font family */
+* {
+  margin: 0px;
+  font-family: sans-serif;
 }
 
-h2{
-    text-align: center;
-    font-size:xx-large;
-    border: 1px solid #c1e8e6;
-    height:fit-content;
-    padding: 20px;
-    background-color: #c1e8e6;
+/* Header styling */
+header {
+  background-color: #084b83;
+  color: rgb(255, 255, 255);
+  font-size: large;
+  height: fit-content;
+  padding: 30px;
+  text-align: center;
 }
 
-header{
-    background-color: #084b83;
-    color: rgb(255, 255, 255);
-    font-size: large;
-    height: fit-content;
-    padding: 30px;
+/* H1 animation */
+h1 {
+  animation: vonRechts 3s;
 }
 
-body{
-    background-color: #42bfdd;
-    color:black;
+/* H2 styling */
+h2 {
+  text-align: center;
+  font-size: xx-large;
+  border: 1px solid #c1e8e6;
+  height: fit-content;
+  padding: 20px;
+  background-color: #c1e8e6;
 }
 
+/* Body styling */
+body {
+  background-color: #42bfdd;
+  color: black;
+}
+
+/* Quiz container */
+nav ul {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  justify-content: space-between; /* Spread items evenly */
+  list-style-type: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 1200px; /* Optional: Limit the overall width of the container */
+}
+
+/* Quiz items */
 nav ul li {
-    list-style-type: none;
-    border: 1px solid #bbe6e4;
-    border-radius: 5px;
-    padding: 100px;
-    margin: 3lh;
-    background-color: #bbe6e4;
-    cursor: pointer;
-  }
-  
-  nav ul li a {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  nav ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
+  flex: 1 1 calc(33.33% - 20px); /* 3 items per row with spacing */
+  box-sizing: border-box; /* Include padding and borders in width calculations */
+  margin: 10px;
+  border: 1px solid #bbe6e4;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #bbe6e4;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-  li:hover{
-    animation: zoom 2.5s;
-    background-color: #3b91a7;
-  }
+/* Quiz links */
+nav ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+}
 
-  h1{
-    animation: vonRechts 3s;
-  }
+/* Hover effect for quiz items */
+nav ul li:hover {
+  background-color: #3b91a7;
+  animation: zoom 2.5s;
+}
 
-  @keyframes zoom {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.3);}
-    100% {transform: scale(1);}
-  }
+/* Hover animation for zoom effect */
+@keyframes zoom {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
 
-  @keyframes vonRechts {
-    from {transform: scale(0.5);}
-    to {transform: scale(1);}
-  }
- 
+/* H1 animation */
+@keyframes vonRechts {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}
 
+/* Adjust for very small screens */
+@media (max-width: 600px) {
+  nav ul li {
+      flex: 1 1 100%; /* One item per row on smaller screens */
+  }
+}

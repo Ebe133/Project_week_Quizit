@@ -45,23 +45,25 @@ $result = $stmt->get_result();
     <div id="timerDisplay">10</div> <!-- Timer display -->
 
     <form action="submit_quiz.php" method="POST">
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<div>";
-                echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
-                echo "</div>";
-            }
-        } else {
-            echo "<p>No questions available for this quiz.</p>";
+    <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<div>";
+            echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
+            echo "</div>";
         }
-        ?>
-        <input type="submit" value="Submit Quiz">
-    </form>
+    } else {
+        echo "<p>No questions available for this quiz.</p>";
+    }
+    ?>
+    <input type="submit" value="Submit Quiz">
+</form>
+
 
     <button id="LinkButton" onclick="CopyLink()">Copy Quiz Link</button>
 
