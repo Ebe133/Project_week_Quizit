@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<title>Quiz aanmaken</title>
 <form method="POST">
     <label for="title">Quiz Title:</label>
     <input type="text" name="title" id="title" required>
