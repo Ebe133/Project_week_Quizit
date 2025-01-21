@@ -17,6 +17,7 @@ $result = $conn->query($sql);
     <header id="header">
     <h1>Quiz</h1>
     </header>
+    <div id="timerDisplay">10</div> <!-- De beginnende waarde van de timer -->
     <form action="submit_quiz.php" method="POST">
         <?php
         if ($result->num_rows > 0) {
@@ -36,4 +37,23 @@ $result = $conn->query($sql);
         <input type="submit" value="Submit Quiz">
     </form>
 </body>
+<script>
+let timer = 10; // Initialiseer de timer met de gewenste begintijd (bijv. 60 seconden)
+
+if(timer > 0){
+    function startTimer() {
+    interval = setInterval(() => {
+        timer--;
+        document.getElementById("timerDisplay").innerText = timer; // Werk de tijd bij op de website
+        if (timer <= 0) {
+            clearInterval(interval); // Stop de timer als deze nul bereikt
+        }
+    }, 1000);
+}
+} else {
+    alert(`Quiz is over!`);
+}
+
+window.load = startTimer()
+</script>
 </html>
