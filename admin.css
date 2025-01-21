@@ -1,56 +1,123 @@
-*{
+/* General reset and font settings */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Body styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #42bfdd;
+    color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
 }
 
-header{
+/* Header styling */
+header {
     background-color: #084b83;
-    color: rgb(255, 255, 255);
+    color: #fff;
     font-size: large;
     height: fit-content;
     padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    animation: vonRechts 3s;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+/* Animation for header */
+@keyframes vonRechts {
+    from {
+        transform: scale(0.5);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Question management section */
+.form-container a {
+    background-color: #c1e8e6;
+    color: black;
+    border-radius: 5px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 20px auto;
+}
+
+.form-container a:hover {
+    background-color: #bbe6e4;
+    transform: scale(1.05);
+}
+
+/* Leaderboard section */
+.leaderboard {
+    background-color: #c1e8e6;
+    color: black;
+    border-radius: 5px;
+    margin: 30px auto;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: left;
 }
 
-#vragenBeheren{
-    background-color: #c1e8e6;
-    color: black;
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
-    position: relative;
-    left: -13.5lh;
+.leaderboard h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #084b83;
+    text-align: center;
 }
 
-.form-container a { 
-    position: relative; 
-    left: -20lh; 
+/* Leaderboard table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
 }
 
-.leaderboard{
-    background-color: #c1e8e6;
-    color: black;
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
-    position: relative; 
-    left: 13.5lh;
-    top: -3.55lh;
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
 }
 
-h1{
-    animation: vonRechts 3s;
-  }
+table th {
+    background-color: #084b83;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1em;
+}
 
-@keyframes vonRechts {
-    from {transform: scale(0.5);}
-    to {transform: scale(1);}
-  }
- 
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #eef;
+}
+
+/* Responsive positioning */
+.form-container a {
+    position: center;
+    left: -20lh;
+padding-left: 200px;
+padding-right: 200px;
+padding-top: 30px;
+padding-bottom: 30px;
+}
+
+.leaderboard {
+    position: center;
+    left: 6.5lh;
+}
