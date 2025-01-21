@@ -19,30 +19,26 @@ header{
     text-align: left;
 }
 
-#vragenBeheren{
+.form-container a { 
     background-color: #c1e8e6;
     color: black;
-    padding: 10px;
     border-radius: 5px;
     display: inline-block;
-    position: relative;
-    left: -13.5lh;
-}
-
-.form-container a { 
     position: relative; 
     left: -20lh; 
+    text-decoration: none;
+    top: relative;
+
 }
 
 .leaderboard{
     background-color: #c1e8e6;
     color: black;
-    padding: 10px;
     border-radius: 5px;
     display: inline-block;
     position: relative; 
     left: 13.5lh;
-    top: -3.55lh;
+    top: 1lh;
 }
 
 h1{

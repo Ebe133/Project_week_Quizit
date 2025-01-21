@@ -12,14 +12,6 @@
     </header>
 
     <section class="question-management">
-        <h2 id="vragenBeheren">Vragen beheren</h2>
-        <table>
-        
-            <tbody>
-            
-            </tbody>
-        </table>
-
         <div class="form-container">
 <a href="createquiz.php">Nieuwe quiz toevoegen</a>
         </div>
