@@ -1,3 +1,20 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Ontvang de formuliergegevens
+    $question = $_POST['question'];
+    $option_a = $_POST['option_a'];
+    $option_b = $_POST['option_b'];
+    $option_c = $_POST['option_c'];
+    $option_d = $_POST['option_d'];
+    $correct_option = $_POST['correct_option'];
+
+    // Hier kun je de gegevens bijvoorbeeld opslaan in een database
+
+    // Bevestigingsbericht
+    $message = "Question registered successfully!";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,11 +65,24 @@
         .form-container input[type="submit"]:hover {
             background-color: #084b83;  
         }
+        .form-container .success-message {
+            margin-top: 20px;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>Add a Question</h2>
+
+        <?php
+        if (isset($message)) {
+            echo "<p class='success-message'>$message</p>";
+        }
+        ?>
+
         <form action="add_question.php" method="POST">
             <textarea name="question" placeholder="Enter the question" required></textarea>
             <input type="text" name="option_a" placeholder="Option A" required>

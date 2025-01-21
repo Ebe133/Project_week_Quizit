@@ -1,37 +1,95 @@
 <?php
-// Include the database connection file
+// Voeg het bestand voor de databaseverbinding in
 include_once 'database.php';
 
-// Initialize the score of the user
+// Initialiseer de score en het aantal fouten van de gebruiker
 $score = 0;
+$total_questions = 0;
 
-// Check if the form has been submitted
+// Controleer of het formulier is ingediend
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Fetch all questions and their correct answers from the database
+    // Haal alle vragen en hun correcte antwoorden op uit de database
     $sql = "SELECT id, correct_option FROM questions";
-    $result = $conn->query($sql); // Execute the query
+    $result = $conn->query($sql); // Voer de query uit
     
-    // Check if there are results retrieved from the database
+    // Controleer of er resultaten zijn opgehaald uit de database
     if ($result->num_rows > 0) {
-        // Loop through each question and check the answers
+        // Loop door elke vraag en controleer de antwoorden
         while ($row = $result->fetch_assoc()) {
-            // Get the ID and correct answer of the current question
+            // Haal de ID en het correcte antwoord van de huidige vraag op
             $question_id = $row['id'];
             $correct_option = $row['correct_option'];
 
-            // Check if the user has answered and if it's correct
+            // Verhoog het totaal aantal vragen
+            $total_questions++;
+
+            // Controleer of de gebruiker een antwoord heeft gegeven en of het correct is
             if (isset($_POST["question_$question_id"]) && !empty($_POST["question_$question_id"])) {
                 if ($_POST["question_$question_id"] === $correct_option) {
-                    $score++; // Increase the score by 1 if the answer is correct
+                    $score++; // Verhoog de score met 1 als het antwoord correct is
                 }
             }
         }
     }
 
-    // Display the final score to the user
-    echo "<p>Your score: $score</p>";
+    // Bereken het aantal fouten
+    $errors = $total_questions - $score;
 
-    // Close the database connection
+    // Sluit de databaseverbinding
     $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Resultaat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            color: #333;
+        }
+        .result-container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .result-container h2 {
+            color: #333;
+        }
+        .result-container p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .result-container a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #42bfdd;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .result-container a:hover {
+            background-color: #084b83;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>Quiz Resultaat</h2>
+        <p>Je score: <?php echo $score; ?> van <?php echo $total_questions; ?></p>
+        <p>Aantal fouten: <?php echo $errors; ?></p>
+        <a href="homepage.php">Terug naar de homepagina</a>
+    </div>
+</body>
+</html>

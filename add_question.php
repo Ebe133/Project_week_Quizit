@@ -22,3 +22,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+<a href="admin.php">Terug naar de admin_dashboard</a>
+

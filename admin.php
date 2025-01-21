@@ -21,7 +21,7 @@
         </table>
 
         <div class="form-container">
-<a href="createquiz.html">Nieuwe vraag toevoegen</a>
+<a href="createquiz.php">Nieuwe vraag toevoegen</a>
         </div>
     </section>
 
