@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Paneel</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <header>
-        <h1>Welkom Docent</h1>
+        <h1>Welkom Docent!</h1>
     </header>
 
     <section class="question-management">
-        <h2>Vragen beheren</h2>
+        <h2 id="vragenBeheren">Vragen beheren</h2>
         <table>
            
             <tbody>
