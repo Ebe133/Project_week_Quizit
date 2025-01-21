@@ -75,7 +75,7 @@ $result = $stmt->get_result();
             <button type="button" id="copyButton" onclick="CopyLink()">Copy Quiz Link</button>
         </form>
     </div>
-
+     
     <script>
     // Timer functionality
     let timer = 120; // Starting timer value in seconds (2 minutes)
