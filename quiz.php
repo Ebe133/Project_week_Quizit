@@ -65,32 +65,41 @@ $result = $stmt->get_result();
 
     <button id="LinkButton" onclick="CopyLink()">Copy Quiz Link</button>
 
+    <body>
+    <div>
+        <div id="timerDisplay">1000</div>
+        <form action="/submit" method="POST">
+            <!-- Form content here -->
+            <button type="button" id="copyButton" onclick="CopyLink()">Copy Quiz Link</button>
+        </form>
+    </div>
+
     <script>
-        // Timer functionality
-        let timer = 1000; // Starting timer value in seconds
-        let interval;
+    // Timer functionality
+    let timer = 120; // Starting timer value in seconds (2 minutes)
+    let interval;
 
-        function startTimer() {
-            interval = setInterval(() => {
-                timer--;
-                document.getElementById("timerDisplay").innerText = timer;
-                if (timer <= 0) {
-                    clearInterval(interval);
-                    alert("Time's up! Submitting the quiz.");
-                    document.querySelector("form").submit(); // Automatically submit when timer ends
-                }
-            }, 1000);
-        }
+    function startTimer() {
+        interval = setInterval(() => {
+            timer--;
+            
+            // Convert seconds to minutes and seconds
+            let minutes = Math.floor(timer / 60);
+            let seconds = timer % 60;
+            
+            // Format timer with leading zeros if needed (e.g., 02:05 instead of 2:5)
+            document.getElementById("timerDisplay").innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            
+            if (timer <= 0) {
+                clearInterval(interval);
+                alert("Time's up! Submitting the quiz.");
+                document.querySelector("form").submit(); // Automatically submit when timer ends
+            }
+        }, 1000);
+    }
 
-        window.onload = startTimer;
+    window.onload = startTimer;
+</script>
 
-        // Copy quiz link functionality
-        function CopyLink() {
-            const quizLink = "http://10.132.251.133/Project_week_Quizit";
-            <?php echo $quizId; ?>;
-            navigator.clipboard.writeText(quizLink);
-            alert("Copied the link: " + quizLink);
-        }
-    </script>
 </body>
 </html>
