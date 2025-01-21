@@ -64,9 +64,6 @@ $result = $stmt->get_result();
     <input type="submit" value="Submit Quiz">
 </form>
 
-
-    <button id="LinkButton" onclick="CopyLink()">Copy Quiz Link</button>
-
     <body>
     <div>
         <div id="timerDisplay">1000</div>
@@ -99,6 +96,12 @@ $result = $stmt->get_result();
             }
         }, 1000);
     }
+
+    function CopyLink() {
+            const quizLink = `http://${window.location.hostname}/quiz.php?quiz_id=<?php echo $quizId; ?>`;
+            navigator.clipboard.writeText(quizLink);
+            alert("Copied the link: " + quizLink);
+        }
 
     window.onload = startTimer;
 </script>
