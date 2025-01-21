@@ -3,6 +3,10 @@
     font-family: sans-serif;
 }
 
+h2{
+    text-align: center;
+}
+
 header{
     background-color: #084b83;
     color: rgb(255, 255, 255);
@@ -12,7 +16,7 @@ header{
 }
 
 body{
-  background-color: #42bfdd;
+    background-color: #42bfdd;
     color:black;
 }
 
