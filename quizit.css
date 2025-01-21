@@ -51,6 +51,8 @@ body {
     color: green;
     font-size: 14px;
     margin-top: 10px;
+    bottom: 100px;
+    z-index: 5;
 }
 
 body {

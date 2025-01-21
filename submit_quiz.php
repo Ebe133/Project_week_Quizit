@@ -1,42 +1,52 @@
 <?php
-// Voeg het bestand voor de databaseverbinding in
+// Include the database connection file
 include_once 'database.php';
 
-// Initialiseer de score en het aantal fouten van de gebruiker
+// Initialize the user's score and total questions
 $score = 0;
 $total_questions = 0;
+$errors = 0;
 
-// Controleer of het formulier is ingediend
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Haal alle vragen en hun correcte antwoorden op uit de database
-    $sql = "SELECT id, correct_option FROM questions";
-    $result = $conn->query($sql); // Voer de query uit
-    
-    // Controleer of er resultaten zijn opgehaald uit de database
+// Check if the form is submitted and a quiz ID is provided
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])) {
+    $quizId = $_POST['quiz_id'];
+
+    // Fetch all questions and their correct answers for the specified quiz
+    $sql = "SELECT id, correct_option FROM questions WHERE quiz_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $quizId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if questions were retrieved from the database
     if ($result->num_rows > 0) {
-        // Loop door elke vraag en controleer de antwoorden
+        // Loop through each question and validate the user's answers
         while ($row = $result->fetch_assoc()) {
-            // Haal de ID en het correcte antwoord van de huidige vraag op
             $question_id = $row['id'];
             $correct_option = $row['correct_option'];
 
-            // Verhoog het totaal aantal vragen
+            // Increment the total number of questions
             $total_questions++;
 
-            // Controleer of de gebruiker een antwoord heeft gegeven en of het correct is
+            // Check if the user answered the question and if the answer is correct
             if (isset($_POST["question_$question_id"]) && !empty($_POST["question_$question_id"])) {
                 if ($_POST["question_$question_id"] === $correct_option) {
-                    $score++; // Verhoog de score met 1 als het antwoord correct is
+                    $score++; // Increment the score for a correct answer
                 }
             }
         }
     }
 
-    // Bereken het aantal fouten
+    // Calculate the number of errors
     $errors = $total_questions - $score;
 
-    // Sluit de databaseverbinding
+    // Close the statement and database connection
+    $stmt->close();
     $conn->close();
+} else {
+    // Redirect back to the homepage if the form was not submitted properly
+    header("Location: homepage.php");
+    exit;
 }
 ?>
 

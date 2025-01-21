@@ -1,3 +1,12 @@
+<?php
+// Include the database connection
+include_once 'database.php';
+
+// Fetch all quizzes from the database
+$sql = "SELECT id, title FROM quizzes";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +17,34 @@
 </head>
 <body>
     <header>
-        <h1>Welkom!</h1>
-    </header>
+    <?php 
+session_start();
+if (isset($_SESSION['name'])) {
+    echo "<h1>Welkom op de Homepagina, " . $_SESSION['name'] . "!</h1>"; 
+} else {
+    echo "<h1>Welkom op de Homepagina!</h1>";
+}
+?>
+</header>
     <h2>Kies een quiz!</h2>
     <nav>
         <ul>
-            <li><a href="quiz.php">Quiz 1</a></li>
-            <li><a href="">Quiz 2</a></li>
-            <li><a href="">Quiz 3</a></li>
-            <li><a href="">Quiz 4</a></li>
+            <?php
+            // Check if there are quizzes in the database
+            if ($result->num_rows > 0) {
+                // Loop through the quizzes and display each as a link
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li><a href='quiz.php?quiz_id=" . $row['id'] . "'>" . htmlspecialchars($row['title']) . "</a></li>";
+                }
+            } else {
+                // Display a message if no quizzes are available
+                echo "<li>Er zijn nog geen quizzen beschikbaar.</li>";
+            }
+
+            // Close the database connection
+            $conn->close();
+            ?>
         </ul>
     </nav>
-</body>    
+</body>
 </html>
