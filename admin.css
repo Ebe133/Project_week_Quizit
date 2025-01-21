@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #42bfdd;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    background-color: #084b83;
+    color: rgb(255, 255, 255);
+    font-size: large;
+    height: fit-content;
+    padding: 30px;
+    text-align: left;
+}
+
+#vragenBeheren{
+    background-color: #c1e8e6;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    left: -13.5lh;
+}
+
+.form-container a { 
+    position: relative; 
+    left: -20lh; 
+}
+
+.leaderboard{
+    background-color: #c1e8e6;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative; 
+}
+
+h1{
+    animation: vonRechts 3s;
+  }
+
+@keyframes vonRechts {
+    from {transform: scale(0.5);}
+    to {transform: scale(1);}
+  }
+ 
