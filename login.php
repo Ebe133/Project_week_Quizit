@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
 
-            <input type="submit" value="Inloggen">
+            <input type="submit" value="Inloggen" id="login-button">
         </form>
 
         <?php
