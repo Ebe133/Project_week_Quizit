@@ -128,14 +128,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <?php
+       
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $lname = $_POST["name"];
             $lpassword = $_POST["password"];
-
+        
+            // Check if fields are empty
             if (empty($lname) || empty($lpassword)) {
                 echo "<p class='error-message'>Vul alle velden in!</p>";
+            } else {
+                
+                $Ausername = "Ashworth";
+                $Apassword = "Appeltaart";
+        
+                if ($lname === $Ausername && $lpassword === $Apassword) {
+                   
+                    header("Location: admin.php");
+                    exit();
+                } else {
+                    echo "<p class='error-message'>Onjuiste gebruikersnaam of wachtwoord!</p>";
+                }
             }
         }
+      
+        
+            
+        
+
+       
+
+        
+
+
+
+        
         ?>
 
         <a href="register.php" class="register-link">Nog geen account? Registreer hier.</a>
