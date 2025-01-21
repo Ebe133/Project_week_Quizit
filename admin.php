@@ -14,14 +14,14 @@
     <section class="question-management">
         <h2>Vragen beheren</h2>
         <table>
-           
+        
             <tbody>
-               
+            
             </tbody>
         </table>
 
         <div class="form-container">
-<a href="createquiz.php">Nieuwe vraag toevoegen</a>
+<a href="createquiz.php">Nieuwe quiz toevoegen</a>
         </div>
     </section>
 
