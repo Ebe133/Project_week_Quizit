@@ -1,4 +1,6 @@
 <?php
+
+
 include_once 'database.php';
 
 // Check if the form has been submitted
@@ -26,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <title>Quiz aanmaken</title>
+<link rel="stylesheet" href="create.css">
 <form method="POST">
     <label for="title">Quiz Title:</label>
     <input type="text" name="title" id="title" required>
