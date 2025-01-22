@@ -25,7 +25,7 @@ if (isset($_SESSION['name'])) {
     echo "<h1>Welkom op de Homepagina!</h1>";
 }
 ?>
-<a href="login.php" id="Signout" style="  position: absolute;
+<a href="login.php" id="Signout" onClick="logout()" style=" position: absolute;
   text-decoration: none;
   top: 30px;
   right: 10px;
@@ -58,4 +58,10 @@ if (isset($_SESSION['name'])) {
         </ul>
     </nav>
 </body>
+<script>
+function logout() {
+    <?php session_destroy(); ?>
+}
+
+</script>
 </html>

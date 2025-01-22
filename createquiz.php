@@ -115,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="C">C</option>
                     <option value="D">D</option>
                 </select>
+                <button type="button" class="delete-btn" onclick="deleteQuestion(this)">Delete</button>
             `;
             document.getElementById('questions').appendChild(questionDiv);
             questionCount++;
