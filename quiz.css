@@ -59,8 +59,6 @@ form input[type="submit"] {
     transition: background-color 0.3s;
 }
 
-form input[type="submit"]:hov er {
+form input[type="submit"]:hover {
     background-color: #042f59;
 }
-
-

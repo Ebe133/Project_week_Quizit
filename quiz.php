@@ -45,24 +45,25 @@ $result = $stmt->get_result();
     <div id="timerDisplay">10</div> <!-- Timer display -->
 
     <form action="submit_quiz.php" method="POST">
-    <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
-    <?php
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<div>";
-            echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
-            echo "</div>";
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<div>";
+                echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
+                echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
+                echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
+                echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
+                echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p>No questions available for this quiz.</p>";
         }
-    } else {
-        echo "<p>No questions available for this quiz.</p>";
-    }
-    ?>
-    <input type="submit" value="Submit Quiz">
-</form>
+        ?>
+        <input type="submit" value="Submit Quiz">
+    </form>
+
+    <button id="LinkButton" onclick="CopyLink()">Copy Quiz Link</button>
 
     <body>
     <div>
@@ -72,39 +73,33 @@ $result = $stmt->get_result();
             <button type="button" id="copyButton" onclick="CopyLink()">Copy Quiz Link</button>
         </form>
     </div>
-     
+
     <script>
-    // Timer functionality
-    let timer = 120; // Starting timer value in seconds (2 minutes)
-    let interval;
+        // Timer functionality
+        let timer = 1000; // Starting timer value in seconds
+        let interval;
 
-    function startTimer() {
-        interval = setInterval(() => {
-            timer--;
-            
-            // Convert seconds to minutes and seconds
-            let minutes = Math.floor(timer / 60);
-            let seconds = timer % 60;
-            
-            // Format timer with leading zeros if needed (e.g., 02:05 instead of 2:5)
-            document.getElementById("timerDisplay").innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            
-            if (timer <= 0) {
-                clearInterval(interval);
-                alert("Time's up! Submitting the quiz.");
-                document.querySelector("form").submit(); // Automatically submit when timer ends
-            }
-        }, 1000);
-    }
+        function startTimer() {
+            interval = setInterval(() => {
+                timer--;
+                document.getElementById("timerDisplay").innerText = timer;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    alert("Time's up! Submitting the quiz.");
+                    document.querySelector("form").submit(); // Automatically submit when timer ends
+                }
+            }, 1000);
+        }
 
-    function CopyLink() {
-            const quizLink = `http://${window.location.hostname}/quiz.php?quiz_id=<?php echo $quizId; ?>`;
+        window.onload = startTimer;
+
+        // Copy quiz link functionality
+        function CopyLink() {
+            const quizId = <?php echo $quizId; ?>; // Ensuring the quizId is fetched dynamically
+            const quizLink = "http://10.132.251.133/Project_week_Quizit/" + quizId;
             navigator.clipboard.writeText(quizLink);
             alert("Copied the link: " + quizLink);
         }
-
-    window.onload = startTimer;
-</script>
-
+    </script>
 </body>
 </html>
