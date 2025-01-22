@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f9f9f9;
+    background-color: #42bfdd;
     margin: 0;
     padding: 20px;
 }
@@ -12,8 +12,8 @@ h1, h2 {
 }
 
 form {
-    background: #ffffff;
-    border: 1px solid #ddd;
+    background: #bbe6e4;
+    border: 1px solid #c1e8e6;
     border-radius: 8px;
     padding: 20px;
     max-width: 600px;
