@@ -52,20 +52,46 @@ $result = $stmt->get_result();
 
     <form action="submit_quiz.php" method="POST">
     <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
-    <?php
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<div>";
-            echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
+
+    To hide empty radio button options when the quiz is displayed, you need to check if each option is filled and only render those that have text. Here's how you can modify your HTML output loop to achieve this:
+
+php
+Copy
+Edit
+<?php
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<div>";
+        echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
+
+        // Check if each option has text before displaying it
+        if (!empty($row['option_a'])) {
             echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
-            echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
-            echo "</div>";
         }
-    } else {
-        echo "<p>No questions available for this quiz.</p>";
+        if (!empty($row['option_b'])) {
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
+        }
+        if (!empty($row['option_c'])) {
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
+        }
+        if (!empty($row['option_d'])) {
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
+        }
+
+        echo "</div>";
     }
+<<<<<<< HEAD
+=======
+} else {
+    echo "<p>No questions available for this quiz.</p>";
+}
+    $quizQuery = $conn->prepare("SELECT title, timer FROM quizzes WHERE id = ?");
+    $quizQuery->bind_param('i', $quizId);
+    $quizQuery->execute();
+    $quizResult = $quizQuery->get_result();
+    $quiz = $quizResult->fetch_assoc();
+    $timer = $quiz['timer'];
+>>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
     ?>
     <input type="submit" value="Submit Quiz">
 </form>
@@ -79,6 +105,7 @@ $result = $stmt->get_result();
     </div>
 
     <script>
+<<<<<<< HEAD
     // Timer functionality
     let timer = 120; // Starting timer value in seconds (2 minutes)
     let interval;
@@ -101,6 +128,10 @@ $result = $stmt->get_result();
             }
         }, 1000);
     }
+=======
+    // Get the timer value from PHP
+let timer = <?php echo $timer; ?>; // Timer value in seconds
+>>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
 
         window.onload = startTimer;
 
