@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="create.css">
 </head>
 <body>
-    <h1>Create a Quiz</h1>
+    <h1 style="Text-Align: center">Create a Quiz</h1>
     <form method="POST">
         <label for="title">Quiz Title:</label>
         <input type="text" name="title" id="title" required>
@@ -58,10 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="questions[0][option_b]" required>
                 <br>
                 <label for="option_c">Option C:</label>
-                <input type="text" name="questions[0][option_c]" required>
+                <input type="text" name="questions[0][option_c]" >
                 <br>
                 <label for="option_d">Option D:</label>
-                <input type="text" name="questions[0][option_d]" required>
+                <input type="text" name="questions[0][option_d]" >
                 <br>
                 <label for="correct_option">Correct Option:</label>
                 <select name="questions[0][correct_answer]" id="correct_option" required>
@@ -70,14 +70,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="C">C</option>
                     <option value="D">D</option>
                 </select>
+                <button type="button" class="delete-btn" onclick="deleteQuestion(this)">Delete</button>
             </div>
         </div>
         <button type="button" onclick="addQuestion()">Add Question</button>
         <button type="submit">Create Quiz</button>
     </form>
-    <a href="admin.php">Back to Homepage</a>
+    <a href="admin.php" onclick="return confirmExit();">Back to Homepage</a>
 
     <script>
+        function confirmExit() {
+        return confirm('You have unsaved changes. Are you sure you want to leave?');
+        }
+
+        window.addEventListener('beforeunload', function (event) {
+        return 'You have unsaved changes. Are you sure you want to leave?'; 
+        });
+
         let questionCount = 1;
 
         function addQuestion() {
@@ -94,10 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="questions[${questionCount}][option_b]" required>
                 <br>
                 <label>Option C:</label>
-                <input type="text" name="questions[${questionCount}][option_c]" required>
+                <input type="text" name="questions[${questionCount}][option_c]" >
                 <br>
                 <label>Option D:</label>
-                <input type="text" name="questions[${questionCount}][option_d]" required>
+                <input type="text" name="questions[${questionCount}][option_d]" >
                 <br>
                 <label for="correct_option_${questionCount}">Correct Option:</label>
                 <select name="questions[${questionCount}][correct_answer]" id="correct_option_${questionCount}" required>
@@ -110,6 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById('questions').appendChild(questionDiv);
             questionCount++;
         }
+
+        function deleteQuestion(button) {
+        const questionDiv = button.parentElement;
+        questionDiv.remove();
+}
+
     </script>
 </body>
 </html>
