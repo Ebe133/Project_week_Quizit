@@ -25,6 +25,7 @@ if (isset($_SESSION['name'])) {
     echo "<h1>Welkom op de Homepagina!</h1>";
 }
 ?>
+<a href="login.php">Log uit ->]</a>
 </header>
     <h2>Kies een quiz!</h2>
     <nav>
