@@ -42,32 +42,36 @@ $result = $stmt->get_result();
         <h1><?php echo htmlspecialchars($quiz['title']); ?></h1>
     </header>
 
-    <div id="timerDisplay">10</div> <!-- Timer display -->
+    <div id="timerDisplay" style="
+    font-size: 30px; 
+    font-weight: bold; 
+    text-align: center; 
+    margin: 20px auto; 
+    display: block; 
+    width: 100%; ">2:00</div> <!-- Timer display -->
 
     <form action="submit_quiz.php" method="POST">
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<div>";
-                echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
-                echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
-                echo "</div>";
-            }
-        } else {
-            echo "<p>No questions available for this quiz.</p>";
+    <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<div>";
+            echo "<p>" . htmlspecialchars($row['question_text']) . "</p>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='A'> " . htmlspecialchars($row['option_a']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='B'> " . htmlspecialchars($row['option_b']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='C'> " . htmlspecialchars($row['option_c']) . "<br>";
+            echo "<input type='radio' name='question_" . $row['id'] . "' value='D'> " . htmlspecialchars($row['option_d']) . "<br>";
+            echo "</div>";
         }
-        ?>
-        <input type="submit" value="Submit Quiz">
-    </form>
-
-    <button id="LinkButton" onclick="CopyLink()">Copy Quiz Link</button>
+    } else {
+        echo "<p>No questions available for this quiz.</p>";
+    }
+    ?>
+    <input type="submit" value="Submit Quiz">
+</form>
 
     <body>
     <div>
-        <div id="timerDisplay">1000</div>
         <form action="/submit" method="POST">
             <!-- Form content here -->
             <button type="button" id="copyButton" onclick="CopyLink()">Copy Quiz Link</button>
@@ -75,21 +79,28 @@ $result = $stmt->get_result();
     </div>
 
     <script>
-        // Timer functionality
-        let timer = 1000; // Starting timer value in seconds
-        let interval;
+    // Timer functionality
+    let timer = 120; // Starting timer value in seconds (2 minutes)
+    let interval;
 
-        function startTimer() {
-            interval = setInterval(() => {
-                timer--;
-                document.getElementById("timerDisplay").innerText = timer;
-                if (timer <= 0) {
-                    clearInterval(interval);
-                    alert("Time's up! Submitting the quiz.");
-                    document.querySelector("form").submit(); // Automatically submit when timer ends
-                }
-            }, 1000);
-        }
+    function startTimer() {
+        interval = setInterval(() => {
+            timer--;
+            
+            // Convert seconds to minutes and seconds
+            let minutes = Math.floor(timer / 60);
+            let seconds = timer % 60;
+            
+            // Format timer with leading zeros if needed (e.g., 02:05 instead of 2:5)
+            document.getElementById("timerDisplay").innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            
+            if (timer <= 0) {
+                clearInterval(interval);
+                alert("Time's up! Submitting the quiz.");
+                document.querySelector("form").submit(); // Automatically submit when timer ends
+            }
+        }, 1000);
+    }
 
         window.onload = startTimer;
 
