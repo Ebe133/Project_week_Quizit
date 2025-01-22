@@ -42,7 +42,13 @@ $result = $stmt->get_result();
         <h1><?php echo htmlspecialchars($quiz['title']); ?></h1>
     </header>
 
-    <div id="timerDisplay">10</div> <!-- Timer display -->
+    <div id="timerDisplay" style="
+    font-size: 30px; 
+    font-weight: bold; 
+    text-align: center; 
+    margin: 20px auto; 
+    display: block; 
+    width: 100%; ">2:00</div> <!-- Timer display -->
 
     <form action="submit_quiz.php" method="POST">
     <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
@@ -60,6 +66,12 @@ $result = $stmt->get_result();
     } else {
         echo "<p>No questions available for this quiz.</p>";
     }
+    $quizQuery = $conn->prepare("SELECT title, timer FROM quizzes WHERE id = ?");
+    $quizQuery->bind_param('i', $quizId);
+    $quizQuery->execute();
+    $quizResult = $quizQuery->get_result();
+    $quiz = $quizResult->fetch_assoc();
+    $timer = $quiz['timer'];
     ?>
     <input type="submit" value="Submit Quiz">
 </form>
@@ -77,24 +89,26 @@ $result = $stmt->get_result();
     let timer = 120; // Starting timer value in seconds (2 minutes)
     let interval;
 
-    function startTimer() {
-        interval = setInterval(() => {
-            timer--;
-            
-            // Convert seconds to minutes and seconds
-            let minutes = Math.floor(timer / 60);
-            let seconds = timer % 60;
-            
-            // Format timer with leading zeros if needed (e.g., 02:05 instead of 2:5)
-            document.getElementById("timerDisplay").innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            
-            if (timer <= 0) {
-                clearInterval(interval);
-                alert("Time's up! Submitting the quiz.");
-                document.querySelector("form").submit(); // Automatically submit when timer ends
-            }
-        }, 1000);
-    }
+    // Get the timer value from PHP
+let timer = <?php echo $timer; ?>; // Timer value in seconds
+
+function startTimer() {
+    const timerDisplay = document.getElementById("timerDisplay");
+
+    const interval = setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        timer--;
+
+        if (timer < 0) {
+            clearInterval(interval);
+            alert('Time is up!');
+        }
+    }, 1000);
+}
+
+window.onload = startTimer;
 
     function CopyLink() {
             const quizLink = `http://${window.location.hostname}/quiz.php?quiz_id=<?php echo $quizId; ?>`;
