@@ -80,8 +80,6 @@ if ($result->num_rows > 0) {
 
         echo "</div>";
     }
-<<<<<<< HEAD
-=======
 } else {
     echo "<p>No questions available for this quiz.</p>";
 }
@@ -91,7 +89,6 @@ if ($result->num_rows > 0) {
     $quizResult = $quizQuery->get_result();
     $quiz = $quizResult->fetch_assoc();
     $timer = $quiz['timer'];
->>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
     ?>
     <input type="submit" value="Submit Quiz">
 </form>
@@ -105,9 +102,7 @@ if ($result->num_rows > 0) {
     </div>
 
     <script>
-<<<<<<< HEAD
     // Timer functionality
-    let timer = 120; // Starting timer value in seconds (2 minutes)
     let interval;
 
     function startTimer() {
@@ -128,10 +123,8 @@ if ($result->num_rows > 0) {
             }
         }, 1000);
     }
-=======
     // Get the timer value from PHP
 let timer = <?php echo $timer; ?>; // Timer value in seconds
->>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
 
         window.onload = startTimer;
 
