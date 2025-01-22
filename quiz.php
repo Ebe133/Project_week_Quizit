@@ -85,10 +85,6 @@ $result = $stmt->get_result();
     </div>
      
     <script>
-    // Timer functionality
-    let timer = 120; // Starting timer value in seconds (2 minutes)
-    let interval;
-
     // Get the timer value from PHP
 let timer = <?php echo $timer; ?>; // Timer value in seconds
 
