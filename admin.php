@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Paneel</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Welkom Docent!</h1>
+        <h1>Welkom Docent</h1>
     </header>
 
     <section class="question-management">
+        <h2>Vragen beheren</h2>
+        <table>
+           
+            <tbody>
+               
+            </tbody>
+        </table>
+
         <div class="form-container">
-<a href="createquiz.php">Nieuwe quiz toevoegen</a>
+<a href="createquiz.php">Nieuwe vraag toevoegen</a>
         </div>
     </section>
 
@@ -23,6 +31,6 @@
                 </tr>
             </tbody>
         </table>
-    </section>
+    </section>  
 </body>
 </html>
