@@ -66,7 +66,6 @@ $result = $stmt->get_result();
 
     <body>
     <div>
-        <div id="timerDisplay">1000</div>
         <form action="/submit" method="POST">
             <!-- Form content here -->
             <button type="button" id="copyButton" onclick="CopyLink()">Copy Quiz Link</button>
