@@ -9,7 +9,7 @@
 <body>
     <header>
         <h1>Welkom Docent!</h1>
-        <a href="login.php" id="Signout" style="  position: absolute;
+        <a href="login.php" id="Signout" onclick="logout()" style="  position: absolute;
   text-decoration: none;
   top: 30px;
   right: 10px;
@@ -36,4 +36,9 @@
         </table>
     </section>
 </body>
+<script>
+function logout() {
+    <?php session_destroy(); ?>
+}
+</script>
 </html>
