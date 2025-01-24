@@ -97,7 +97,7 @@ if ($result->num_rows > 0) {
 
     <script>
     // Timer functionality
-    let timer = 120; // Starting timer value in seconds (2 minutes)
+    let timer = <?php echo $timer; ?>;
     let interval;
 
     function startTimer() {
@@ -118,10 +118,6 @@ if ($result->num_rows > 0) {
             }
         }, 1000);
     }
-=======
-    // Get the timer value from PHP
-let timer = <?php echo $timer; ?>; // Timer value in seconds
->>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
 
         window.onload = startTimer;
 
