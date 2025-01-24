@@ -80,8 +80,6 @@ if ($result->num_rows > 0) {
 
         echo "</div>";
     }
-<<<<<<< HEAD
-=======
 } else {
     echo "<p>No questions available for this quiz.</p>";
 }
@@ -91,7 +89,6 @@ if ($result->num_rows > 0) {
     $quizResult = $quizQuery->get_result();
     $quiz = $quizResult->fetch_assoc();
     $timer = $quiz['timer'];
->>>>>>> e90c07b769e39c4f394460db452c2ad6fc07091c
     ?>
     <input type="submit" value="Submit Quiz">
 </form>
