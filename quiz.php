@@ -52,12 +52,6 @@ $result = $stmt->get_result();
 
     <form action="submit_quiz.php" method="POST">
     <input type="hidden" name="quiz_id" value="<?php echo $quizId; ?>">
-
-    To hide empty radio button options when the quiz is displayed, you need to check if each option is filled and only render those that have text. Here's how you can modify your HTML output loop to achieve this:
-
-php
-Copy
-Edit
 <?php
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -102,7 +96,6 @@ if ($result->num_rows > 0) {
     </div>
 
     <script>
-<<<<<<< HEAD
     // Timer functionality
     let timer = 120; // Starting timer value in seconds (2 minutes)
     let interval;
